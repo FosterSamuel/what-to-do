@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WhatToDo</title>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        <link href='css/main.min.css' rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h1 class='hidden'>WhatToDo</h1>
+            <nav>
+                <h2 class='hidden'>Site Navigation</h2>
+                <a href="#tasks">Tasks</a>
+                <a href="#about">About</a>
+            </nav>
+        </header>
+        <div class='container'>
+            <section class='user-input' name='user-input'>
+                <h2 class='hidden'>User Input</h2>
+                <p>How much time do you have?</p>
+                <form onsubmit="console.log(34); return false;" onforminput="console.log(13);">
+                    <input type="text">
+                </form>
+                <button onclick="displayTask(whatToDo(tasks, getUserInput())[0]);">calculate</button>
+            </section>
+            <section id="div1">
+            </section>
+        </div>
+        <footer id='about'>
+            <h2 class='hidden'>About</h2>
+            <p>WhatToDo returns the best task for you to do, based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
+            <a href='http://www.github.com/FosterSamuel/what-to-do' target='_blank'>Github</a>
+            <a href=''>Twitter</a>
+        </footer>
+        <script type="text/javascript" src="scripts/whatToDo.js"></script>
+    </body>
+</html>
