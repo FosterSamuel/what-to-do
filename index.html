@@ -18,18 +18,15 @@
                 <a href="#about">About</a>
             </nav>
         </header>
-        <div class='container'>
-            <section class='user-input' name='user-input'>
-                <h2 class='hidden'>User Input</h2>
-                <p>How much time do you have?</p>
-                <form onsubmit="console.log(34); return false;" onforminput="console.log(13);">
-                    <input type="text">
-                </form>
-                <button onclick="displayTask(whatToDo(tasks, getUserInput())[0]);">calculate</button>
-            </section>
-            <section id="div1">
-            </section>
-        </div>
+        <section class='input'>
+            <h2 class='hidden'>User Input</h2>
+            <p>How much time do you have?</p>
+            <form onsubmit="displayTask(whatToDo(tasks, getUserInput())[0]); return false;">
+                <input type="text">
+            </form>
+        </section>
+        <section class='results'>
+        </section>
         <footer id='about'>
             <h2 class='hidden'>About</h2>
             <p>WhatToDo returns the best task for you to do, based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>

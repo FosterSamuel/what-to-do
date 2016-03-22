@@ -134,9 +134,11 @@ function displayTask(specificTask) {
         timePhrase = (specificTask.timeNeeded * 60).toPrecision(2) + " minute(s)";
     }
     
-    var taskElement = document.createElement("section"), currentDiv = document.querySelector(".user-input");
-    var taskDescription = document.createTextNode("It will take " + (timePhrase) + " to complete the task '" + specificTask.name + ".'");
+    var taskElement = document.createElement("section"), currentDiv = document.querySelector(".results");
+    var taskDescription = document.createTextNode(specificTask.name + " | Time Needed: " + timePhrase);
     
+    
+    currentDiv.innerHTML = "";
     taskElement.appendChild(taskDescription); //add the text node to the newly created div. 
     currentDiv.appendChild(taskElement);
     
