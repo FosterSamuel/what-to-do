@@ -12,27 +12,30 @@
     <body>
         <header>
             <h1 class='hidden'>WhatToDo</h1>
-            <nav>
-                <h2 class='hidden'>Site Navigation</h2>
-                <a href="#tasks">Tasks</a>
-                <a href="#about">About</a>
-            </nav>
         </header>
         <section class='input'>
             <h2 class='hidden'>User Input</h2>
-            <p>How much time do you have?</p>
-            <form onsubmit="displayTask(whatToDo(tasks, getUserInput())[0]); return false;">
-                <input type="text">
+            <p>How many hours do you have?</p>
+            <form onsubmit="updateDisplayedTask(whatToDo(tasks, getUserInput(timeHoursInput))[0]); return false;">
+                <input type="number" value="1" min="1" max="1000" id="input-hours">
             </form>
         </section>
-        <section class='results'>
+        <section class='output'>
+            <h2 class='hidden'>Output</h2>
+            <section class='result'>
+                <hgroup>
+                    <h2 class='hidden'>Best Task: Write paper</h2>
+                    <h3>Write paper</h3>
+                </hgroup>
+                <i>time needed: 3 hours</i>
+            </section>
         </section>
         <footer id='about'>
             <h2 class='hidden'>About</h2>
-            <p>WhatToDo returns the best task for you to do, based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
+            <p>WhatToDo returns the best task for you to do based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
             <a href='http://www.github.com/FosterSamuel/what-to-do' target='_blank'>Github</a>
             <a href=''>Twitter</a>
         </footer>
-        <script type="text/javascript" src="scripts/whatToDo.js"></script>
+        <script type="text/javascript" src="scripts/main.js"></script>
     </body>
 </html>

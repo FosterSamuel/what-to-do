@@ -1,6 +1,45 @@
-//////////////////////////////////////////////////////////////
-// TASK SORTING //
+function displayTask(specificTask) {
+    'use strict';
+    
+    var timePhrase = specificTask.timeNeeded + " hour(s)";
+    
+    if (specificTask.timeNeeded < 1) {
+        timePhrase = (specificTask.timeNeeded * 60).toPrecision(2) + " minute(s)";
+    }
+    
+    var taskElement = document.createElement("section"), currentDiv = document.querySelector(".results");
+    var taskDescription = document.createTextNode(specificTask.name + " | Time Needed: " + timePhrase);
+    
+    
+    currentDiv.innerHTML = "";
+    taskElement.appendChild(taskDescription); //add the text node to the newly created div. 
+    currentDiv.appendChild(taskElement);
+    
+    console.log(specificTask);
+}
 
+function getTimePhrase(time) {
+    'use strict';
+    var timeDescriptor = "hours";
+    
+    if (time === 1) {
+        timeDescriptor = "hour";
+    }
+    
+    return time + " " + timeDescriptor;
+}
+
+
+
+function updateDisplayedTask(specificTask) {
+    'use strict';
+
+    var timePhrase = getTimePhrase(specificTask.timeNeeded);
+    
+    resultTimeNeeded.innerHTML = "Time needed: " + timePhrase;
+    resultVisibleHeading.innerHTML = specificTask.name;
+}
+// TASK SORTING //
 function lowest() {
     'use strict';
     return "lowest";
@@ -48,9 +87,8 @@ function byProperty(prop, sortingOrder) {
     }
 }
 
-//////////////////////////////////////////////////////////////
-// TASK PROPERTIES
 
+// TASK PROPERTIES
 function generateTimeDifference(taskList, timeGiven) {
     'use strict';
     
@@ -60,12 +98,12 @@ function generateTimeDifference(taskList, timeGiven) {
                 return specificTask;
             } else {
                 specificTask[lastGivenTime()] = timeGiven;
-                specificTask.timeDifference = specificTask.timeNeeded - timeGiven;
+                specificTask.timeDifference = timeGiven - specificTask.timeNeeded;
                 return specificTask;
             }
         } else {
             specificTask[lastGivenTime()] = timeGiven;
-            specificTask.timeDifference = specificTask.timeNeeded - timeGiven;
+            specificTask.timeDifference = timeGiven - specificTask.timeNeeded;
             return specificTask;
         }
     });
@@ -75,19 +113,18 @@ function generateTaskWeight(taskList) {
     'use strict';
     
     return taskList.map(function (specificTask) {
-        specificTask.weight = specificTask.priority + specificTask.timeDifference;
+        specificTask.weight = specificTask.priority - specificTask.timeDifference;
         return specificTask;
     });
 }
 
-//////////////////////////////////////////////////////////////
-// TASK FILTERING
 
+// TASK FILTERING
 function getPossibleTasks(amount, taskList) {
     'use strict';
     if (amount > 0) {
         return taskList.filter(function (specificTask) {
-            return specificTask.timeDifference <= 0;
+            return specificTask.timeDifference >= 0;
         }).splice(0, amount);
     } else {
         return taskList;
@@ -118,47 +155,17 @@ function getBestTasks(taskList) {
 }
 
 
-//////////////////////////////////////////////////////////////
-// TASK CREATION & DISPLAY //
+// TASK CREATION
 function createTask(taskList, taskName, taskTimeNeeded, taskPriority) {
     'use strict';
     taskList.push({"name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
 }
 
-function displayTask(specificTask) {
-    'use strict';
-    
-    var timePhrase = specificTask.timeNeeded + " hour(s)";
-    
-    if (specificTask.timeNeeded < 1) {
-        timePhrase = (specificTask.timeNeeded * 60).toPrecision(2) + " minute(s)";
-    }
-    
-    var taskElement = document.createElement("section"), currentDiv = document.querySelector(".results");
-    var taskDescription = document.createTextNode(specificTask.name + " | Time Needed: " + timePhrase);
-    
-    
-    currentDiv.innerHTML = "";
-    taskElement.appendChild(taskDescription); //add the text node to the newly created div. 
-    currentDiv.appendChild(taskElement);
-    
-    console.log(specificTask);
 
-}
-//////////////////////////////////////////////////////////////
-
-
-// USER INPUT
-
-function getUserInput() {
-    var inputValue = document.querySelector('input').value;
-    
-    return inputValue;
-}
-
-
+// TASK PICKING
 function whatToDo(taskList, timeGiven) {
     'use strict';
+    
     var possibleTasks = [];
     
     generateTimeDifference(taskList, timeGiven);
@@ -166,49 +173,55 @@ function whatToDo(taskList, timeGiven) {
 
     generateTaskWeight(possibleTasks);
     
-    return getBestTasks(possibleTasks).sort(byProperty(taskPriority(), highest()));
+    return getBestTasks(possibleTasks).sort(byProperty(taskPriority(), SORT_PRIORITY()));
 }
-
-/*
-    Priority:
-        0 = low
-        1 = medium
-        2 = high
-        3 = emergency
-        
-    Time difference:
-       >0 = uses more than the time alloted. (not possible)
-        0 = uses all time alloted
-       -n = less time than the time alloted
-*/
-
 var tasks = [];
 var tasksToDo = [];
-var bestTask = null;
 
-var timeAlloted  = 1;
+var timeAlloted = 1;
 
 var SORT_PRIORITY = function () {
     'use strict';
     return lowest();
 };
 
-
 // createTask(taskList, name, time, priority);
 
 createTask(tasks, "Contribute on github", 0.5, 1);
 createTask(tasks, "Work on scholarship video", 2, 1);
-createTask(tasks, "Write paper", 4, 1);
-createTask(tasks, "Make bed", .1, 2);
-createTask(tasks, "Organize code", 1, 2);
-createTask(tasks, "Learn all of JavaScript.", 2, 2);
+createTask(tasks, "Write paper", 4, 3);
+createTask(tasks, "Make bed", 0.1, 2);
+createTask(tasks, "Organize your coding assets", 1, 2);
+createTask(tasks, "Learn all of JavaScript.", 200, 2);
+function getUserInput(inputElement) {
+    'use strict';
+    
+    var inputValue = inputElement.value;
+    
+    if (inputValue !== "") {
+        inputValue = parseFloat(inputValue);
+    } else {
+        inputValue = 1;
+    }
+       
+    return inputValue;
+}
 
-tasksToDo = whatToDo(tasks, timeAlloted);
+var result = document.querySelector('.result');
+var resultInivisibleHeading = result.querySelector('hgroup h2');
+var resultVisibleHeading = result.querySelector('hgroup h3');
+var resultTimeNeeded = result.querySelector('i');
 
-// Hypothetical best task
-bestTask = tasksToDo[0];
+var timeHoursInput = document.querySelector('#input-hours');
 
-// Display the task(s).
-//displayTask(bestTask);
 
-//////////////////////////////////////////////////////////////
+updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
+
+timeHoursInput.addEventListener("input", function () {
+    'use strict';
+    
+    // Allowing room for the addition 
+    var totalTime = getUserInput(timeHoursInput);
+    
+    updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
+});

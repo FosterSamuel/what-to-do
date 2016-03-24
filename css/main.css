@@ -45,7 +45,7 @@ p + p {
   text-indent: 2em; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Sumana", sans-serif; }
+  font-family: "Source Sans Pro", sans-serif; }
 
 h1 {
   font-size: 3.157em;
@@ -118,25 +118,17 @@ span {
   body {
     font-size: 125%; } }
 body {
-  background: #e0e0e0; }
+  background: #1e5799;
+  background: linear-gradient(135deg, #1e5799 0%, #48ad5c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#48ad5c',GradientType=1 ); }
 
 header {
-  background: #48ad5c;
-  width: 100%;
-  font-size: 1.15em; }
-header nav {
-  width: 50%;
-  margin: 0 auto;
-  padding: .5em 0; }
-header nav a, header nav a:visited {
-  text-decoration: none;
-  color: #120a38; }
-header nav a:nth-child(even) {
-  float: right; }
+  width: 100%; }
 
 .input {
-  background: #48ad5c;
+  clear: both;
   margin: 0 auto;
+  font-family: "Source Sans Pro", sans-serif;
   padding: 2em 0; }
 .input p {
   text-align: center;
@@ -153,19 +145,21 @@ header nav a:nth-child(even) {
   border-bottom: 2px solid black;
   background: transparent; }
 
-.results {
-  background: #48ad5c;
+.output {
   padding: 2em 0; }
-.results section {
+.output .result {
   background: white;
-  margin: 0 auto;
+  width: 80%;
   padding: 2em 1em;
   font-weight: bold;
   margin: 0 auto; }
 
 footer {
   width: 80%;
-  margin: 2em auto; }
+  margin: 2em auto;
+  padding: 2em 0;
+  background: #f7f7f7;
+  box-shadow: 0px 500px 0px 500px #f7f7f7; }
 footer a, footer a:visited {
   color: #120a38;
   font-weight: bold;
