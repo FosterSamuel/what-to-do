@@ -217,7 +217,7 @@ var timeHoursInput = document.querySelector('#input-hours');
 
 updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
 
-timeHoursInput.addEventListener("input", function () {
+timeHoursInput.addEventListener("keyup", function () {
     'use strict';
     
     // Allowing room for the addition 
