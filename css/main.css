@@ -138,11 +138,13 @@ header {
 .input form input {
   display: block;
   margin: 1em auto;
+  width: 6em;
   padding: .25em 0;
   text-align: center;
   border: none;
   font-weight: bold;
   border-bottom: 2px solid black;
+  border-radius: 0px;
   background: transparent; }
 
 input[type="number"] {
