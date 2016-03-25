@@ -187,12 +187,12 @@ var SORT_PRIORITY = function () {
 
 // createTask(taskList, name, time, priority);
 
-createTask(tasks, "Contribute on github", 0.5, 1);
+createTask(tasks, "Contribute on github", 5, 1);
 createTask(tasks, "Work on scholarship video", 2, 1);
-createTask(tasks, "Write paper", 4, 3);
+createTask(tasks, "Write paper", 4, 2);
 createTask(tasks, "Make bed", 0.1, 2);
-createTask(tasks, "Organize your coding assets", 1, 2);
-createTask(tasks, "Learn all of JavaScript.", 200, 2);
+createTask(tasks, "Organize your coding assets", 1, 1);
+createTask(tasks, "Learn all of JavaScript.", 200, 3);
 function getUserInput(inputElement) {
     'use strict';
     
@@ -219,8 +219,15 @@ updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
 
 timeHoursInput.addEventListener("keyup", function () {
     'use strict';
-    
     // Allowing room for the addition 
+    var totalTime = getUserInput(timeHoursInput);
+    
+    updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
+});
+
+timeHoursInput.addEventListener("blur", function() {
+   'use strict';
+    
     var totalTime = getUserInput(timeHoursInput);
     
     updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
