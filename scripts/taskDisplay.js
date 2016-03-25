@@ -24,6 +24,14 @@ function getTimePhrase(time) {
     
     if (time === 1) {
         timeDescriptor = "hour";
+    } else if (time < 1) {
+        var timeInMinutes = (time * 60);
+        timeDescriptor = "minutes";
+        
+        if(timeInMinutes == 1) {
+            timeDescriptor = "minute";
+        }
+        return timeInMinutes + " " + timeDescriptor;
     }
     
     return time + " " + timeDescriptor;

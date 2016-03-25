@@ -24,6 +24,14 @@ function getTimePhrase(time) {
     
     if (time === 1) {
         timeDescriptor = "hour";
+    } else if (time < 1) {
+        var timeInMinutes = (time * 60);
+        timeDescriptor = "minutes";
+        
+        if(timeInMinutes == 1) {
+            timeDescriptor = "minute";
+        }
+        return timeInMinutes + " " + timeDescriptor;
     }
     
     return time + " " + timeDescriptor;
@@ -195,18 +203,31 @@ var SORT_PRIORITY = function () {
 
 // createTask(taskList, name, time, priority);
 
-createTask(tasks, "Code left-pad", 0.01, 1);
-createTask(tasks, "Make bed", 0.1, 2);
+createTask(tasks, "Code left-pad", 0.1, 1);
+createTask(tasks, "Make bed", 0.1, 1);
 createTask(tasks, "Sketch website idea", .5, 1);
-createTask(tasks, "Contribute on github", 1, 1);
+createTask(tasks, "Contribute on Github", 1, 1);
 createTask(tasks, "Work on scholarships", 2, 2);
-createTask(tasks, "Organize your coding assets", 2, 1);
+createTask(tasks, "Back-up your data", 2, 3);
+createTask(tasks, "Organize your programming assets", 2, 1);
 createTask(tasks, "Write English paper", 4, 2);
 createTask(tasks, "Build a JavaScript framework", 6, 1);
 createTask(tasks, "Call your parents", 6, 1);
 createTask(tasks, "Clean entire house", 6, 2);
 createTask(tasks, "Make good use of your job's time", 8, 2);
-createTask(tasks, "Learn all of JavaScript.", 200, 3);
+createTask(tasks, "Learn all of JavaScript", 200, 3);
+var result = document.querySelector('.result');
+var resultInivisibleHeading = result.querySelector('hgroup h2');
+var resultVisibleHeading = result.querySelector('hgroup h3');
+var resultTimeNeeded = result.querySelector('i');
+
+var timeHoursInput = document.querySelector('#input-hours');
+
+
+// Make sure the default time is accounted for
+updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
+
+
 function getUserInput(inputElement) {
     'use strict';
     
@@ -222,17 +243,9 @@ function getUserInput(inputElement) {
 }
 
 
-
-var result = document.querySelector('.result');
-var resultInivisibleHeading = result.querySelector('hgroup h2');
-var resultVisibleHeading = result.querySelector('hgroup h3');
-var resultTimeNeeded = result.querySelector('i');
-
-var timeHoursInput = document.querySelector('#input-hours');
-
-
-updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
-
+// Input element is tied to this function
+// so that 'updating' can be expanded in
+// the future.
 function updatePage() {
     'use strict';
     var totalTime = getUserInput(timeHoursInput);
