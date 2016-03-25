@@ -10,7 +10,7 @@ var SORT_PRIORITY = function () {
 
 // createTask(taskList, name, time, priority);
 
-createTask(tasks, "Code left-pad", 0.01, 2);
+createTask(tasks, "Code left-pad", 0.01, 0);
 createTask(tasks, "Make bed", 0.1, 2);
 createTask(tasks, "Sketch website idea", .5, 0);
 createTask(tasks, "Contribute on github", 1, 0);
