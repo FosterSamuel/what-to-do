@@ -93,9 +93,8 @@ span {
   font-weight: bold; }
 
 @media screen and (min-width: 1000px) {
-  header nav {
-    width: 40%;
-    max-width: 33ch; }
+  .output .result {
+    width: 50%; }
 
   ::-moz-selection {
     background: #f27000; }
@@ -122,58 +121,61 @@ body {
   background: linear-gradient(135deg, #1e5799 0%, #48ad5c 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#48ad5c',GradientType=1 ); }
 
-header {
-  width: 100%; }
-
 .input {
-  clear: both;
-  margin: 0 auto;
+  width: 100%;
   font-family: "Source Sans Pro", sans-serif;
-  padding: 2em 0; }
+  padding-top: 2em; }
 .input p {
   text-align: center;
   margin: 0 auto;
+  color: white;
+  text-shadow: 0px 3px 5px #2a292e;
   font-weight: bold;
-  font-size: 1.25em; }
-.input form input {
+  font-size: 1.60em; }
+.input #input-hours {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -moz-appearance: textfield;
+  border-radius: 0px;
   display: block;
-  margin: 1em auto;
-  width: 6em;
+  margin: 1em auto 0 auto;
+  width: 35%;
   padding: .25em 0;
   text-align: center;
   border: none;
   font-weight: bold;
-  border-bottom: 2px solid black;
-  border-radius: 0px;
+  font-size: 1.5em;
+  color: white;
+  border-bottom: .25em solid #01020b;
   background: transparent; }
-
-input[type="number"] {
-  -moz-appearance: textfield; }
-
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+.input #input-hours::-webkit-inner-spin-button, .input #input-hours::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0; }
 
 .output {
-  padding: 2em 0; }
-.output .result {
+  padding: 3em 0; }
+
+.result {
   background: white;
   width: 80%;
-  padding: 2em 1em;
+  padding: 1em 1em 2em 1em;
   font-weight: bold;
-  margin: 0 auto; }
+  margin: 0 auto;
+  box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.75); }
 
 footer {
-  width: 80%;
-  margin: 2em auto;
-  padding: 2em 0;
   background: #f7f7f7;
-  box-shadow: 0px 500px 0px 500px #f7f7f7; }
+  box-shadow: 0px 500px 0px 500px #f7f7f7;
+  border-top: 1px solid #cbcbcb;
+  margin: 2em 0;
+  padding: 2em; }
+footer p {
+  margin: 0 auto; }
 footer a, footer a:visited {
   color: #120a38;
   font-weight: bold;
   text-decoration: none;
+  text-align: center;
   display: block;
-  margin: 1em 0;
-  width: 3em;
+  margin: 1em auto;
   font-size: 1.15em; }
