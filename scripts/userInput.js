@@ -29,3 +29,11 @@ timeHoursInput.addEventListener("keyup", function () {
     
     updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
 });
+
+timeHoursInput.addEventListener("blur", function () {
+    'use strict';
+    // Allowing room for the addition 
+    var totalTime = getUserInput(timeHoursInput);
+    
+    updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
+});
