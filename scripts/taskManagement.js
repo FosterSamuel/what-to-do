@@ -33,11 +33,11 @@ function byProperty(prop, sortingOrder) {
     'use strict';
     if (sortingOrder === lowest()) {
         return function (a, b) {
-            return a[prop] > b[prop];
+            return (a[prop] - b[prop]);
         };
     } else if (sortingOrder === highest()) {
         return function (a, b) {
-            return a[prop] < b[prop];
+            return (b[prop] - a[prop]);
         };
     } else {
         return function (a, b) {
@@ -92,23 +92,25 @@ function getPossibleTasks(amount, taskList) {
 
 function getBestTasks(taskList) {
     'use strict';
-    var bestTasks = [];
-       
-    taskList.sort(byProperty(taskWeight(), highest()));
-    var baseWeight = taskList[0].weight;
     
-    taskList.sort(byProperty(taskPriority(), highest()));
-    var basePriority = taskList[0].priority;
+    taskList.sort(byProperty(taskWeight(), highest()));
+    
+    var bestTasks = [];
+    var baseWeight = taskList[0].weight;
+    var escapeTrigger = false;
     
     bestTasks.push(taskList[0]);
     
     taskList.forEach(function (specificTask, taskIndex) {
-        if (taskIndex !== 0) {
-            if (specificTask.weight === baseWeight && specificTask.priority === basePriority) {
+        if (taskIndex > 0 && !escapeTrigger) {
+            if (specificTask.weight === baseWeight) {
                 bestTasks.push(specificTask);
+            } else {
+                escapeTrigger = true;
             }
         }
     });
+    
     
     return bestTasks;
 }
@@ -129,8 +131,14 @@ function whatToDo(taskList, timeGiven) {
     
     generateTimeDifference(taskList, timeGiven);
     possibleTasks = getPossibleTasks(taskList.length, taskList);
-
+    
     generateTaskWeight(possibleTasks);
     
-    return getBestTasks(possibleTasks).sort(byProperty(taskPriority(), SORT_PRIORITY()));
+    var bestTasks = getBestTasks(possibleTasks);
+    
+    if(bestTasks.length > 1) {
+        bestTasks.sort(byProperty(taskWeight(), SORT_PRIORITY()));
+    }
+    
+    return bestTasks;
 }

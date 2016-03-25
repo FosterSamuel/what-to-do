@@ -74,11 +74,11 @@ function byProperty(prop, sortingOrder) {
     'use strict';
     if (sortingOrder === lowest()) {
         return function (a, b) {
-            return a[prop] > b[prop];
+            return (a[prop] - b[prop]);
         };
     } else if (sortingOrder === highest()) {
         return function (a, b) {
-            return a[prop] < b[prop];
+            return (b[prop] - a[prop]);
         };
     } else {
         return function (a, b) {
@@ -133,23 +133,25 @@ function getPossibleTasks(amount, taskList) {
 
 function getBestTasks(taskList) {
     'use strict';
-    var bestTasks = [];
-       
-    taskList.sort(byProperty(taskWeight(), highest()));
-    var baseWeight = taskList[0].weight;
     
-    taskList.sort(byProperty(taskPriority(), highest()));
-    var basePriority = taskList[0].priority;
+    taskList.sort(byProperty(taskWeight(), highest()));
+    
+    var bestTasks = [];
+    var baseWeight = taskList[0].weight;
+    var escapeTrigger = false;
     
     bestTasks.push(taskList[0]);
     
     taskList.forEach(function (specificTask, taskIndex) {
-        if (taskIndex !== 0) {
-            if (specificTask.weight === baseWeight && specificTask.priority === basePriority) {
+        if (taskIndex > 0 && !escapeTrigger) {
+            if (specificTask.weight === baseWeight) {
                 bestTasks.push(specificTask);
+            } else {
+                escapeTrigger = true;
             }
         }
     });
+    
     
     return bestTasks;
 }
@@ -170,10 +172,16 @@ function whatToDo(taskList, timeGiven) {
     
     generateTimeDifference(taskList, timeGiven);
     possibleTasks = getPossibleTasks(taskList.length, taskList);
-
+    
     generateTaskWeight(possibleTasks);
     
-    return getBestTasks(possibleTasks).sort(byProperty(taskPriority(), SORT_PRIORITY()));
+    var bestTasks = getBestTasks(possibleTasks);
+    
+    if(bestTasks.length > 1) {
+        bestTasks.sort(byProperty(taskWeight(), SORT_PRIORITY()));
+    }
+    
+    return bestTasks;
 }
 var tasks = [];
 var tasksToDo = [];
@@ -187,16 +195,16 @@ var SORT_PRIORITY = function () {
 
 // createTask(taskList, name, time, priority);
 
-createTask(tasks, "Code left-pad", 0.01, 0);
+createTask(tasks, "Code left-pad", 0.01, 1);
 createTask(tasks, "Make bed", 0.1, 2);
-createTask(tasks, "Sketch website idea", .5, 0);
-createTask(tasks, "Contribute on github", 1, 0);
+createTask(tasks, "Sketch website idea", .5, 1);
+createTask(tasks, "Contribute on github", 1, 1);
 createTask(tasks, "Work on scholarships", 2, 2);
-createTask(tasks, "Organize your coding assets", 3, 1);
+createTask(tasks, "Organize your coding assets", 2, 1);
 createTask(tasks, "Write English paper", 4, 2);
-createTask(tasks, "Build a JavaScript framework", 5, 2);
-createTask(tasks, "Call your parents", 6, 2);
-createTask(tasks, "Clean entire house", 7, 2);
+createTask(tasks, "Build a JavaScript framework", 6, 1);
+createTask(tasks, "Call your parents", 6, 1);
+createTask(tasks, "Clean entire house", 6, 2);
 createTask(tasks, "Make good use of your job's time", 8, 2);
 createTask(tasks, "Learn all of JavaScript.", 200, 3);
 function getUserInput(inputElement) {
@@ -213,6 +221,8 @@ function getUserInput(inputElement) {
     return inputValue;
 }
 
+
+
 var result = document.querySelector('.result');
 var resultInivisibleHeading = result.querySelector('hgroup h2');
 var resultVisibleHeading = result.querySelector('hgroup h3');
@@ -223,18 +233,9 @@ var timeHoursInput = document.querySelector('#input-hours');
 
 updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
 
-timeHoursInput.addEventListener("keyup", function () {
+function updatePage() {
     'use strict';
-    // Allowing room for the addition 
     var totalTime = getUserInput(timeHoursInput);
     
     updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
-});
-
-timeHoursInput.addEventListener("blur", function () {
-    'use strict';
-    // Allowing room for the addition 
-    var totalTime = getUserInput(timeHoursInput);
-    
-    updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
-});
+}

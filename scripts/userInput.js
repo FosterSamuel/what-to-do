@@ -12,6 +12,8 @@ function getUserInput(inputElement) {
     return inputValue;
 }
 
+
+
 var result = document.querySelector('.result');
 var resultInivisibleHeading = result.querySelector('hgroup h2');
 var resultVisibleHeading = result.querySelector('hgroup h3');
@@ -22,18 +24,9 @@ var timeHoursInput = document.querySelector('#input-hours');
 
 updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
 
-timeHoursInput.addEventListener("keyup", function () {
+function updatePage() {
     'use strict';
-    // Allowing room for the addition 
     var totalTime = getUserInput(timeHoursInput);
     
     updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
-});
-
-timeHoursInput.addEventListener("blur", function () {
-    'use strict';
-    // Allowing room for the addition 
-    var totalTime = getUserInput(timeHoursInput);
-    
-    updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
-});
+}
