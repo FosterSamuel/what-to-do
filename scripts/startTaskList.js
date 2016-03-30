@@ -1,5 +1,5 @@
 var tasks = [];
-var tasksToDo = [];
+var tasksOnDisplay = [];
 
 var timeAlloted = 1;
 
@@ -9,7 +9,6 @@ var SORT_PRIORITY = function () {
 };
 
 // createTask(taskList, name, time, priority);
-
 createTask(tasks, "Code left-pad", 0.1, 1);
 createTask(tasks, "Make bed", 0.1, 1);
 createTask(tasks, "Sketch website idea", .5, 1);
@@ -23,3 +22,9 @@ createTask(tasks, "Call your parents", 6, 1);
 createTask(tasks, "Clean entire house", 6, 2);
 createTask(tasks, "Make good use of your job's time", 8, 2);
 createTask(tasks, "Learn all of JavaScript", 200, 3);
+
+// Fill seperate array with best tasks
+tasksOnDisplay = whatToDo(tasks, timeAlloted);
+
+// Fill hidden tasklist that can be edited
+populateHTML(tasks);

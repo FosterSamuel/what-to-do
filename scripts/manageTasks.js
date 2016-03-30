@@ -46,7 +46,6 @@ function byProperty(prop, sortingOrder) {
     }
 }
 
-
 // TASK PROPERTIES
 function generateTimeDifference(taskList, timeGiven) {
     'use strict';
@@ -77,6 +76,40 @@ function generateTaskWeight(taskList) {
     });
 }
 
+function generateTaskID() {
+    'use strict';
+    return random4() + random4();
+}
+
+function random4() {
+    'use strict';
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+}
+
+function updateTaskPriority(taskHTMLObject) {
+    var newPriority = parseInt(taskHTMLObject.value);
+    
+    var specificTaskID = taskHTMLObject.getAttribute('data-task');
+    var specificTask = getTaskByID(specificTaskID, tasks);
+    
+    var specificTaskPriorityHTML = taskHTMLObject.parentNode;
+    specificTaskPriorityHTML.setAttribute('data-priority', generatePriorityString(newPriority).toLowerCase());
+
+    console.log(specificTask);
+    
+    specificTask.priority = newPriority;
+    
+    if (tasksOnDisplay[0].id === specificTaskID) {
+       updateDisplayedTask(specificTask); 
+    }
+}
+
+function updateTaskName(specificTask, newName) {
+    specificTask.name = newName;
+    if (specificTask.id === tasksOnDisplay[0].id) {
+       updateDisplayedTask(specificTask); 
+    }
+}
 
 // TASK FILTERING
 function getPossibleTasks(amount, taskList) {
@@ -115,11 +148,17 @@ function getBestTasks(taskList) {
     return bestTasks;
 }
 
+function getTaskByID(taskID, taskList) {
+    'use strict';
+    return taskList.filter(function (obj) {
+        return obj.id === taskID;
+    })[0];
+}
 
 // TASK CREATION
 function createTask(taskList, taskName, taskTimeNeeded, taskPriority) {
     'use strict';
-    taskList.push({"name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
+    taskList.push({"id": generateTaskID(), "name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
 }
 
 
@@ -136,7 +175,7 @@ function whatToDo(taskList, timeGiven) {
     
     var bestTasks = getBestTasks(possibleTasks);
     
-    if(bestTasks.length > 1) {
+    if (bestTasks.length > 1) {
         bestTasks.sort(byProperty(taskWeight(), SORT_PRIORITY()));
     }
     

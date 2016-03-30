@@ -12,6 +12,7 @@ function displayTask(specificTask) {
     
     
     currentDiv.innerHTML = "";
+    tasksOnDisplay[0] = specificTask;    
     taskElement.appendChild(taskDescription); //add the text node to the newly created div. 
     currentDiv.appendChild(taskElement);
     
@@ -28,7 +29,7 @@ function getTimePhrase(time) {
         var timeInMinutes = (time * 60);
         timeDescriptor = "minutes";
         
-        if(timeInMinutes == 1) {
+        if (timeInMinutes === 1) {
             timeDescriptor = "minute";
         }
         return timeInMinutes + " " + timeDescriptor;
@@ -37,15 +38,83 @@ function getTimePhrase(time) {
     return time + " " + timeDescriptor;
 }
 
+function generatePriorityString(specificPriority) {
+    'use strict';
+    
+    switch(specificPriority) {
+        case 1:
+            return "Low";
+            break;
+        case 2:
+            return "Medium";
+            break;
+        case 3:
+            return "High";
+            break;
+    }
+    return "Medium";
+}
+
+function createTaskHTML(specificTask) {
+    var timePhrase = getTimePhrase(specificTask.timeNeeded);
+    var priorityString = generatePriorityString(specificTask.priority);
+    
+    var htmlString = "<section class='task'>" + "\n";
+    
+    var prioritySelected = [specificTask.priority === 1 ? "selected='true'" : "",
+                            specificTask.priority === 2 ? "selected='true'" : "",
+                            specificTask.priority === 3 ? "selected='true'" : ""];
+    
+    
+    htmlString += "<hgroup>" + "\n";
+    htmlString += " <h2 class='hidden'> Best Task: " + specificTask.name + "</h2>" + "\n";
+    htmlString += " <h3 data-task='" + specificTask.id + "' contenteditable onkeydown='return handleTaskNameEdit(event, this);' onblur='handleTaskNameEdit(event, this);'>" + specificTask.name + "</h3>" + "\n";
+    htmlString += "</hgroup>" + "\n";
+    htmlString += "<i id='priority' data-priority='" + priorityString.toLowerCase() + "'>Priority: " + "\n";
+    htmlString += "<select data-task='" + specificTask.id + "' onchange='updateTaskPriority(this);'>" + "\n";
+    
+    htmlString += "     <option value='1' " + prioritySelected[0] + ">Low</option>" + "\n";
+    htmlString += "     <option value='2' " + prioritySelected[1] + ">Medium</option>" + "\n";
+    htmlString += "     <option value='3' " + prioritySelected[2] + ">High</option>" + "\n";
+    
+    htmlString += "</select></i>" + "\n";
+    htmlString += "<i id='time-needed'>Time needed: " + timePhrase + "</i>" + "\n";
+    htmlString += "</section>";
+    
+    return htmlString;
+}
 
 
 function updateDisplayedTask(specificTask) {
     'use strict';
 
     var timePhrase = getTimePhrase(specificTask.timeNeeded);
+    var priorityString = generatePriorityString(specificTask.priority);
     
     resultTimeNeeded.innerHTML = "Time needed: " + timePhrase;
+    resultInivisibleHeading.innerHTML = "Best task: " + specificTask.name;
     resultVisibleHeading.innerHTML = specificTask.name;
+    resultPriority.innerHTML = "Priority: " + priorityString;
+    resultPriority.setAttribute('data-priority', priorityString.toLowerCase());
+    
+    tasksOnDisplay[0] = specificTask;
+}
+
+function populateHTML(tasklist) {
+    var section = document.querySelector('.tasks');
+    
+    tasklist.forEach(function (specificTask) {
+        section.innerHTML += createTaskHTML(specificTask);
+    });
+}
+
+
+function toggleTaskListVisibility() {
+    if (taskListHTML.classList.contains('hidden')) {
+        taskListHTML.classList.remove('hidden');
+    } else {
+        taskListHTML.classList.add('hidden');
+    }
 }
 // TASK SORTING //
 function lowest() {
@@ -95,7 +164,6 @@ function byProperty(prop, sortingOrder) {
     }
 }
 
-
 // TASK PROPERTIES
 function generateTimeDifference(taskList, timeGiven) {
     'use strict';
@@ -126,6 +194,40 @@ function generateTaskWeight(taskList) {
     });
 }
 
+function generateTaskID() {
+    'use strict';
+    return random4() + random4();
+}
+
+function random4() {
+    'use strict';
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+}
+
+function updateTaskPriority(taskHTMLObject) {
+    var newPriority = parseInt(taskHTMLObject.value);
+    
+    var specificTaskID = taskHTMLObject.getAttribute('data-task');
+    var specificTask = getTaskByID(specificTaskID, tasks);
+    
+    var specificTaskPriorityHTML = taskHTMLObject.parentNode;
+    specificTaskPriorityHTML.setAttribute('data-priority', generatePriorityString(newPriority).toLowerCase());
+
+    console.log(specificTask);
+    
+    specificTask.priority = newPriority;
+    
+    if (tasksOnDisplay[0].id === specificTaskID) {
+       updateDisplayedTask(specificTask); 
+    }
+}
+
+function updateTaskName(specificTask, newName) {
+    specificTask.name = newName;
+    if (specificTask.id === tasksOnDisplay[0].id) {
+       updateDisplayedTask(specificTask); 
+    }
+}
 
 // TASK FILTERING
 function getPossibleTasks(amount, taskList) {
@@ -164,11 +266,17 @@ function getBestTasks(taskList) {
     return bestTasks;
 }
 
+function getTaskByID(taskID, taskList) {
+    'use strict';
+    return taskList.filter(function (obj) {
+        return obj.id === taskID;
+    })[0];
+}
 
 // TASK CREATION
 function createTask(taskList, taskName, taskTimeNeeded, taskPriority) {
     'use strict';
-    taskList.push({"name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
+    taskList.push({"id": generateTaskID(), "name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
 }
 
 
@@ -185,14 +293,14 @@ function whatToDo(taskList, timeGiven) {
     
     var bestTasks = getBestTasks(possibleTasks);
     
-    if(bestTasks.length > 1) {
+    if (bestTasks.length > 1) {
         bestTasks.sort(byProperty(taskWeight(), SORT_PRIORITY()));
     }
     
     return bestTasks;
 }
 var tasks = [];
-var tasksToDo = [];
+var tasksOnDisplay = [];
 
 var timeAlloted = 1;
 
@@ -202,7 +310,6 @@ var SORT_PRIORITY = function () {
 };
 
 // createTask(taskList, name, time, priority);
-
 createTask(tasks, "Code left-pad", 0.1, 1);
 createTask(tasks, "Make bed", 0.1, 1);
 createTask(tasks, "Sketch website idea", .5, 1);
@@ -216,13 +323,21 @@ createTask(tasks, "Call your parents", 6, 1);
 createTask(tasks, "Clean entire house", 6, 2);
 createTask(tasks, "Make good use of your job's time", 8, 2);
 createTask(tasks, "Learn all of JavaScript", 200, 3);
+
+// Fill seperate array with best tasks
+tasksOnDisplay = whatToDo(tasks, timeAlloted);
+
+// Fill hidden tasklist that can be edited
+populateHTML(tasks);
 var result = document.querySelector('.result');
 var resultInivisibleHeading = result.querySelector('hgroup h2');
 var resultVisibleHeading = result.querySelector('hgroup h3');
-var resultTimeNeeded = result.querySelector('i');
+var resultTimeNeeded = result.querySelector('#time-needed');
+var resultPriority = result.querySelector('#priority');
+
+var taskListHTML = document.querySelector('.tasks');
 
 var timeHoursInput = document.querySelector('#input-hours');
-
 
 // Make sure the default time is accounted for
 updateDisplayedTask(whatToDo(tasks, timeAlloted)[0]);
@@ -243,12 +358,29 @@ function getUserInput(inputElement) {
 }
 
 
-// Input element is tied to this function
-// so that 'updating' can be expanded in
-// the future.
 function updatePage() {
     'use strict';
     var totalTime = getUserInput(timeHoursInput);
     
     updateDisplayedTask(whatToDo(tasks, totalTime)[0]);
+}
+
+function handleTaskNameEdit(e, element) {
+    'use strict';
+    
+    var originalTask = getTaskByID(element.getAttribute('data-task'), tasks);
+    var originalTaskName = originalTask.name;
+    
+    if(e.type === 'blur') {
+        updateTaskName(originalTask, element.innerHTML);
+    } else if (e.type === 'keydown') {
+        if (e.keyCode == 13 || e.which == 13) {
+            updateTaskName(originalTask, element.innerHTML);
+            element.blur();
+            return false;
+        } else if (e.keyCode == 27 || e.which == 27 ) {
+            element.innerHTML = originalTaskName;
+            element.blur();
+        }
+    }
 }
