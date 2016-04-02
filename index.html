@@ -35,6 +35,7 @@
         
         <section class='tasks hidden'>
             <h2 class='hidden'>Task List</h2>
+            <button id='btn-add-task' onclick="createTask(tasks, '[New Task]', 1/60, 1); populateHTML(tasks);">Add task</button>
             <section class="task hidden">
                 <hgroup>
                  <h2 class="hidden"> Best Task: Code left-pad</h2>
@@ -54,8 +55,8 @@
             <h2 class='hidden'>About</h2>
             <p>WhatToDo returns the optimal task based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
             <a href='http://www.github.com/FosterSamuel/what-to-do' target='_blank'>Github</a>
-            <a href=''>Twitter</a>
+            <a href='http://www.twitter.com/samuelfosterweb' target="_blank">Twitter</a>
         </footer>
-        <script type="text/javascript" src="scripts/main.min.js"></script>
+        <script type="text/javascript" src="scripts/main.js"></script>
     </body>
 </html>

@@ -68,6 +68,7 @@ function createTaskHTML(specificTask) {
     
     htmlString += "<hgroup>" + "\n";
     htmlString += " <h2 class='hidden'> Best Task: " + specificTask.name + "</h2>" + "\n";
+    htmlString += "<button onclick='deleteTask(tasks, " + '"' + specificTask.id + '"' + "); populateHTML(tasks);'>X</button>" + "\n";
     htmlString += " <h3 data-task='" + specificTask.id + "' contenteditable onkeydown='return handleTaskNameEdit(event, this);' onblur='handleTaskNameEdit(event, this);'>" + specificTask.name + "</h3>" + "\n";
     htmlString += "</hgroup>" + "\n";
     htmlString += "<i id='priority' data-priority='" + priorityString.toLowerCase() + "'>Priority: " + "\n";
@@ -103,6 +104,13 @@ function updateDisplayedTask(specificTask) {
 function populateHTML(tasklist) {
     var section = document.querySelector('.tasks');
     
+    // Get anything that isn't a .task
+    var sectionCutoff = section.innerHTML.indexOf("<section");
+    var sectionReplace = section.innerHTML.slice(0, sectionCutoff);
+    
+    section.innerHTML = sectionReplace;
+    
+    tasklist.sort(byProperty(timeNeeded(), lowest()));
     tasklist.forEach(function (specificTask) {
         section.innerHTML += createTaskHTML(specificTask);
     });
@@ -145,6 +153,11 @@ function taskPriority() {
 function timeDifference() {
     'use strict';
     return "timeDifference";
+}
+
+function timeNeeded() {
+    'use strict';
+    return "timeNeeded";
 }
 
 function byProperty(prop, sortingOrder) {
@@ -212,8 +225,6 @@ function updateTaskPriority(taskHTMLObject) {
     
     var specificTaskPriorityHTML = taskHTMLObject.parentNode;
     specificTaskPriorityHTML.setAttribute('data-priority', generatePriorityString(newPriority).toLowerCase());
-
-    console.log(specificTask);
     
     specificTask.priority = newPriority;
     
@@ -273,12 +284,24 @@ function getTaskByID(taskID, taskList) {
     })[0];
 }
 
-// TASK CREATION
+// TASK LIFE
 function createTask(taskList, taskName, taskTimeNeeded, taskPriority) {
     'use strict';
     taskList.push({"id": generateTaskID(), "name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
 }
 
+function deleteTask(taskList, taskID) {
+    var indexOf = 0;
+    var specificTaskIndex = taskList.filter(function (obj, index) {
+        if (obj.id === taskID) {
+            indexOf = index;
+            return true;
+        }
+    });
+    
+    taskList.splice(indexOf, 1)
+    console.log(taskList);
+}
 
 // TASK PICKING
 function whatToDo(taskList, timeGiven) {

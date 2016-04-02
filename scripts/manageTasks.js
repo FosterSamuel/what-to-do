@@ -29,6 +29,11 @@ function timeDifference() {
     return "timeDifference";
 }
 
+function timeNeeded() {
+    'use strict';
+    return "timeNeeded";
+}
+
 function byProperty(prop, sortingOrder) {
     'use strict';
     if (sortingOrder === lowest()) {
@@ -94,8 +99,6 @@ function updateTaskPriority(taskHTMLObject) {
     
     var specificTaskPriorityHTML = taskHTMLObject.parentNode;
     specificTaskPriorityHTML.setAttribute('data-priority', generatePriorityString(newPriority).toLowerCase());
-
-    console.log(specificTask);
     
     specificTask.priority = newPriority;
     
@@ -155,12 +158,24 @@ function getTaskByID(taskID, taskList) {
     })[0];
 }
 
-// TASK CREATION
+// TASK LIFE
 function createTask(taskList, taskName, taskTimeNeeded, taskPriority) {
     'use strict';
     taskList.push({"id": generateTaskID(), "name": taskName, "timeNeeded": taskTimeNeeded, "priority": taskPriority});
 }
 
+function deleteTask(taskList, taskID) {
+    var indexOf = 0;
+    var specificTaskIndex = taskList.filter(function (obj, index) {
+        if (obj.id === taskID) {
+            indexOf = index;
+            return true;
+        }
+    });
+    
+    taskList.splice(indexOf, 1)
+    console.log(taskList);
+}
 
 // TASK PICKING
 function whatToDo(taskList, timeGiven) {

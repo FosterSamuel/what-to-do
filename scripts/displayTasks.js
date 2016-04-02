@@ -68,6 +68,7 @@ function createTaskHTML(specificTask) {
     
     htmlString += "<hgroup>" + "\n";
     htmlString += " <h2 class='hidden'> Best Task: " + specificTask.name + "</h2>" + "\n";
+    htmlString += "<button onclick='deleteTask(tasks, " + '"' + specificTask.id + '"' + "); populateHTML(tasks);'>X</button>" + "\n";
     htmlString += " <h3 data-task='" + specificTask.id + "' contenteditable onkeydown='return handleTaskNameEdit(event, this);' onblur='handleTaskNameEdit(event, this);'>" + specificTask.name + "</h3>" + "\n";
     htmlString += "</hgroup>" + "\n";
     htmlString += "<i id='priority' data-priority='" + priorityString.toLowerCase() + "'>Priority: " + "\n";
@@ -103,6 +104,13 @@ function updateDisplayedTask(specificTask) {
 function populateHTML(tasklist) {
     var section = document.querySelector('.tasks');
     
+    // Get anything that isn't a .task
+    var sectionCutoff = section.innerHTML.indexOf("<section");
+    var sectionReplace = section.innerHTML.slice(0, sectionCutoff);
+    
+    section.innerHTML = sectionReplace;
+    
+    tasklist.sort(byProperty(timeNeeded(), lowest()));
     tasklist.forEach(function (specificTask) {
         section.innerHTML += createTaskHTML(specificTask);
     });
