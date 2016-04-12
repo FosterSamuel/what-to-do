@@ -197,6 +197,8 @@ body {
   font-weight: bold;
   border: none;
   border-radius: 50px; }
+.tasks .task input {
+  text-indent: .25em; }
 
 #btn-add-task {
   -webkit-appearance: none;
