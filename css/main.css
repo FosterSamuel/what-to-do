@@ -44,9 +44,6 @@ p {
   -ms-hyphens: auto;
   hyphens: auto; }
 
-p + p {
-  text-indent: 2em; }
-
 h1, h2, h3, h4, h5, h6 {
   font-family: "Source Sans Pro", sans-serif; }
 
@@ -62,42 +59,15 @@ h3 {
   font-size: 1.77em;
   /* 1.17*16 = 18.72 */ }
 
-h4 {
-  font-size: 1.333em;
-  /* 1*16 = 16 */ }
-
-h5 {
-  font-size: 0.83em;
-  /* 0.83*16 = 13.28 */ }
-
-h6 {
-  font-size: 0.75em;
-  /* 0.75*16 = 12 */ }
-
-q, blockquote {
-  quotes: "\201C" "\201D" "\2018" "\2019"; }
-
-blockquote {
-  font-style: italic;
-  font-size: 1.2em;
-  padding: 5%; }
-
-blockquote:before {
-  content: "\201C";
-  display: inline-block;
-  padding-right: .4em; }
-
-ul {
-  list-style: inside;
-  margin-left: 1em; }
-
-span {
-  color: #f27000;
-  font-weight: bold; }
-
 @media screen and (min-width: 1000px) {
-  .output .result {
-    width: 50%; }
+  .output .task {
+    width: 40%; }
+
+  .tasks .task {
+    max-width: 40%; }
+
+  #btn-add-task, #btn-show-tasks {
+    max-width: 500px; }
 
   ::-moz-selection {
     background: #f27000; }
@@ -160,22 +130,41 @@ body {
 
 .output {
   padding: 3em 0; }
+.output > p {
+  text-align: center;
+  color: white;
+  margin: 0 auto; }
 
-.result {
+.task {
   background: white;
   width: 80%;
   padding: 1em 1em 2em 1em;
   font-weight: bold;
   margin: 0 auto;
   box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.75); }
-.result i {
+.task i {
   display: block; }
-.result #priority[data-priority="low"] {
+.task #priority[data-priority="low"] {
   color: forestgreen; }
-.result #priority[data-priority="medium"] {
+.task #priority[data-priority="medium"] {
   color: #ed8301; }
-.result #priority[data-priority="high"] {
+.task #priority[data-priority="high"] {
   color: #dd002c; }
+.task input[type=number]::-webkit-inner-spin-button, .task input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+.task button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  float: right;
+  cursor: pointer;
+  font-size: 1em;
+  padding: .25em;
+  background: transparent;
+  color: #b7b7b7;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px; }
 
 .tasks {
   margin: 0 0 3em 0; }
@@ -204,7 +193,7 @@ body {
   font-size: 1em;
   padding: .25em;
   background: transparent;
-  color: red;
+  color: #b7b7b7;
   font-weight: bold;
   border: none;
   border-radius: 50px; }

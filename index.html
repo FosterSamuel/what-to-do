@@ -16,9 +16,7 @@
         <section class='input'>
             <h2 class='hidden'>User Input</h2>
             <p>How many hours do you have?</p>
-            <form onsubmit="updateDisplayedTask(whatToDo(tasks, getUserInput(timeHoursInput))[0]); return false;">
-                <input type="number" value="1" min="1" max="1000" id="input-hours" onkeyup="updatePage()">
-            </form>
+            <input type="number" value="1" min="1" max="1000" id="input-hours">
         </section>
         <section class='output'>
             <h2 class='hidden'>Output</h2>
@@ -28,35 +26,21 @@
                     <h3>Write paper</h3>
                 </hgroup>
                 <i id='priority' data-priority="low">Priority: low</i>
-                <i id='time-needed'>Time needed: 3 hours</i>
+                <i id='time-needed'>Hours needed: 3 hours</i>
             </section>
         </section>
-        <button id='btn-show-tasks' onclick="toggleTaskListVisibility();">Edit tasklist</button>
-        
+        <input type='button' id='btn-show-tasks' value="Edit Tasklist">
         <section class='tasks hidden'>
             <h2 class='hidden'>Task List</h2>
-            <button id='btn-add-task' onclick="createTask(tasks, '[New Task]', 1/60, 1); populateHTML(tasks);">Add task</button>
-            <section class="task hidden">
-                <hgroup>
-                 <h2 class="hidden"> Best Task: Code left-pad</h2>
-                 <h3 contenteditable="">Code left-pad</h3>
-                </hgroup>
-                <i id="priority" data-priority="low">Priority:
-                    <select>
-                        <option value="1" selected>Low</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
-                    </select>
-                </i>
-                <i id="time-needed">Time needed: 6 minutes</i>
-            </section>
+            <input type='button' id='btn-add-task' value="Add Task">
         </section>
         <footer id='about'>
             <h2 class='hidden'>About</h2>
-            <p>WhatToDo returns the optimal task based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
+            <p>WhatToDo returns the optimal task to do based on your input. Tasks are weighed and delivered using vanilla JavaScript.</p>
             <a href='http://www.github.com/FosterSamuel/what-to-do' target='_blank'>Github</a>
-            <a href='http://www.twitter.com/samuelfosterweb' target="_blank">Twitter</a>
+            <a href='http://www.twitter.com/samuelfosterweb' target='_blank'>Twitter</a>
         </footer>
-        <script type="text/javascript" src="scripts/main.js"></script>
+        <script type="text/javascript" src="scripts/main.min.js"></script>
     </body>
+    
 </html>
