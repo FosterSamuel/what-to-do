@@ -100,6 +100,8 @@ function createTaskHTML(specificTask, HTMLType) {
             return handleTaskDeletion(specificTask.id);
         });
         
+        priorityMasterElement.innerHTML = "Priority: ";
+        
         prioritySelectElement.setAttribute('data-task', specificTask.id);
         prioritySelectElement.addEventListener('change', function () {
             return handleTaskPriorityEdit(this);
