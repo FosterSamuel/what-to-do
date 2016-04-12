@@ -206,7 +206,7 @@ var SORT_PRIORITY = function () {
 addTask(masterTaskList, "Code left-pad", 0.1, 1);
 addTask(masterTaskList, "Make bed", 0.1, 1);
 addTask(masterTaskList, "Sketch website idea", .5, 1);
-addTask(masterTaskList, "Contribute on Github", 1, 1);
+addTask(masterTaskList, "Clean your room", 1, 1);
 addTask(masterTaskList, "Work on scholarships", 2, 2);
 addTask(masterTaskList, "Back-up your data", 2, 3);
 addTask(masterTaskList, "Organize your programming assets", 2, 1);
