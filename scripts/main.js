@@ -410,7 +410,7 @@ function updateTaskList(tasklist) {
     var outputPoint = document.querySelector('.tasks');
     var breakPoint = 4;
     
-    // Clean out the inside (remove anything after the last input element)
+    // We don't want to remove the buttons controlling the task list
     for(var i = 0; i < outputPoint.childNodes.length; i++) {
         if(outputPoint.childNodes.item(i).tagName === "INPUT") {
             breakPoint = i + 1;
