@@ -1,9 +1,4 @@
 # what-to-do
-
-
-
-   
-# what-to-do
 > Task decider built in vanilla JS
 
 
